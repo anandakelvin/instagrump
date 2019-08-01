@@ -3,7 +3,15 @@ import requests
 class Content:
 	
 	def __init__(self, url):
-		self.url = url
+		api_endp = '__a=1'
+		if not api_endp in url:
+			if url[-1] != '/':
+				url += '/'
+			if '?' in url:
+				url += '&%s' % api_endp
+			else:
+				url += '?%s' % api_endp
+
 		self.data = requests.get(url).json()['graphql']['shortcode_media']
 		self.type = self.data['__typename']
 		self.id = self.data['id']
